@@ -24,5 +24,5 @@ export const renderSignUp = (req, res) => {
 
 export const signUp = async (req, res) => {
   console.log(req.body);
-  res.json({ message: "SignUp Correct" });
+  res.json("SignUp Correct");
 }; // --> signUp (create user)
