@@ -1,6 +1,22 @@
 // --/ Form SignUp /--
 <template>
   <div class="signup">
+    <div v-if="msg.msgs" class="container">
+      <div v-for="msg in msg.msgs" v-bind:key="msg">
+        <div
+          class="alert alert-danger alert-dismissible fade show px-5"
+          role="alert"
+        >
+          <strong>{{ msg.text }}</strong>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+    </div>
     <form v-on:submit.prevent>
       <div>
         <label>Email: </label>
@@ -77,6 +93,11 @@ export default {
       v$,
     };
   },
+  data() {
+    return {
+      msg: [{}],
+    };
+  },
   methods: {
     // When click, validate info --->
     submitFormSignIn() {
@@ -90,9 +111,12 @@ export default {
       await axios
         .post("http://localhost:3080/api/users/signin", this.state)
         .then((data) => {
-          console.log(data.data);
+          if (data.data.token == null && !data.data.token) {
+            this.msg.msgs = data.data;
+          } else {
+            this.$router.push("/profile");
+          }
         });
-      this.$router.push("/")
     },
   },
 };

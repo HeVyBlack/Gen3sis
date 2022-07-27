@@ -1,6 +1,23 @@
 // --/ Form SignUp /--
 <template>
-  <div class="signup">
+  <div class="signup container">
+    <div v-if="msg.msgs" class="container">
+      <div v-for="msg in msg.msgs" v-bind:key="msg">
+        <div
+          class="alert alert-danger alert-dismissible fade show px-5"
+          role="alert"
+        >
+          <strong>{{ msg.text }}</strong>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+    </div>
+
     <form v-on:submit.prevent>
       <div>
         <label>Nombre de Usuario:</label>
@@ -72,7 +89,9 @@
         </span>
       </div>
       <br />
-      <button @click="submitFormSignUp" type="submit">Submit</button>
+      <button @click="submitFormSignUp" type="submit" class="btn btn-dark">
+        Submit
+      </button>
     </form>
   </div>
 </template>
@@ -154,6 +173,11 @@ export default {
       v$,
     };
   },
+  data() {
+    return {
+      msg: [{}],
+    };
+  },
   methods: {
     submitFormSignUp() {
       // --> On submit, call Vuelidate with rules and state <---
@@ -166,15 +190,23 @@ export default {
       await axios
         .post("http://localhost:3080/api/users/signup", this.state)
         .then((data) => {
-          console.log(data.data);
+          if (data.data == true) {
+            this.$router.push({
+              name: "signin",
+              params: {
+                msg_from_signup: "Por favor verifica tú correo",
+              },
+            });
+          } else {
+            this.msg.msgs = data.data;
+          }
         });
-        this.$router.push("/signin")
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 form {
   max-width: 420px;
   margin: 30px auto;

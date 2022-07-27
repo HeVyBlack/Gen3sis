@@ -1,9 +1,19 @@
 <template>
   <section>
     <nav>
-      | <router-link :to="{ name: 'home' }">Home</router-link> |
-      <router-link :to="{ name: 'signin' }">SignIn</router-link> |
-      <router-link :to="{ name: 'signup' }">SignUp</router-link> |
+      |
+      <router-link :to="{ name: 'home' }" class="btn btn-dark"
+        >Home</router-link
+      >
+      |
+      <router-link :to="{ name: 'signin' }" class="btn btn-dark"
+        >SignIn</router-link
+      >
+      |
+      <router-link :to="{ name: 'signup' }" class="btn btn-dark"
+        >SignUp</router-link
+      >
+      |
     </nav>
     <router-view />
   </section>
@@ -26,8 +36,6 @@ nav a {
 }
 
 nav a.router-link-exact-active {
-  padding: 0.5rem;
-  color: white;
-  background-color: black;
+  border-radius: 0;
 }
 </style>
