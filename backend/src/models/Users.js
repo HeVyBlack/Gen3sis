@@ -34,12 +34,14 @@ const userSchema = new Schema(
   }
 );
 
+
 userSchema.methods.encryptPassword = async (password) => {
   const salt = await bcrypt.genSalt(10);
   return await bcrypt.hash(password, salt);
-};
+}; // <-- Encrypt password 
 
 userSchema.methods.matchPassword = async function (password) {
   return await bcrypt.compare(password, this.password);
-};
+}; // <-- When a signin post, this match the password provided, with user's password  
+
 export default model("Users", userSchema);

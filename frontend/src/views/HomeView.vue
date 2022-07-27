@@ -26,6 +26,7 @@ export default {
     HelloWorld,
   },
   props: {
+    // Set variable, for posible messages
     msgs: String,
   },
 };

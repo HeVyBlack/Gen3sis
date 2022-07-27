@@ -1,9 +1,11 @@
 <template>
   <div class="signup">
-    
-
-    <div class="alert alert-success alert-dismissible fade show container px-5" role="alert" v-if="msg_from_signup">
-      <strong>{{msg_from_signup}}</strong>
+    <div
+      class="alert alert-success alert-dismissible fade show container px-5"
+      role="alert"
+      v-if="msg_from_signup"
+    >
+      <strong>{{ msg_from_signup }}</strong>
       <button
         type="button"
         class="btn-close"
@@ -23,6 +25,7 @@ export default {
     SignInForm,
   },
   props: {
+    // Set variable for posible messages
     msg_from_signup: String,
   },
 };

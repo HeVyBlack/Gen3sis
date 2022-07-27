@@ -53,7 +53,6 @@
 </template>
 
 <script>
-import router from "vue-router";
 import axios from "axios";
 import useValidate from "@vuelidate/core";
 import { required, email, minLength, helpers } from "@vuelidate/validators";
@@ -61,6 +60,7 @@ import { reactive, computed } from "vue";
 import setAuthHeader from "@/utils/setAuthHeader";
 export default {
   setup() {
+    // Variables, that contain the users's info
     const state = reactive({
       email: "",
       password: "",
@@ -69,18 +69,22 @@ export default {
       return {
         // ---> Rules for vuelidate <---
         email: {
+          // If email is void, send a message
           required: helpers.withMessage(
             "El email no debe estar vacío",
             required
           ),
+          // If email is invalid, send a message
           email: helpers.withMessage("El email debe ser válido", email),
         },
 
         password: {
+          // If password is void, send a message
           required: helpers.withMessage(
             "La contraseña no debe estar vacía",
             required
           ),
+          // If password is not 4 characters, send a message
           minLength: helpers.withMessage(
             "La contraseña debe ser de mínimo 4 caracteres",
             minLength(4)
@@ -88,6 +92,7 @@ export default {
         },
       };
     });
+    // Call function useValidate, with the rules, and user's info
     const v$ = useValidate(rules, state);
     return {
       state,
@@ -96,6 +101,7 @@ export default {
   },
   data() {
     return {
+      // Msg array, for incoming msgs from backend
       msg: [{}],
     };
   },
@@ -105,19 +111,20 @@ export default {
       // --> On submit, call Vuelidate with rules and state <---
       this.v$.$validate();
       if (!this.v$.$error) {
-        this.signIn();
+        this.signIn(); // <--- If ther's no errors, call signIn function
       }
     },
     async signIn() {
       await axios
-        .post("http://localhost:3080/api/users/signin", this.state)
+        .post("http://localhost:3080/api/users/signin", this.state) // <--- Post petition, with user's info
         .then((data) => {
           if (data.data.token == null && !data.data.token) {
-            this.msg.msgs = data.data;
+            this.msg.msgs = data.data; // <--- If there's no token, or is null, set de data recieved from backend, in msg array
           } else {
             localStorage.setItem("jwtToken", data.data.token);
             setAuthHeader(data.data.token);
             this.$router.push("/profile");
+            // Else, set token recieved from backend, in local storage. Set token as "persistence". Send to profile page
           }
         });
     },

@@ -97,7 +97,6 @@
 </template>
 
 <script>
-import router from "vue-router";
 import axios from "axios";
 import useValidate from "@vuelidate/core";
 import {
@@ -110,6 +109,7 @@ import {
 import { reactive, computed } from "vue";
 export default {
   setup() {
+    // Variables, that contain the users's info
     const state = reactive({
       user_name: "",
       email: "",
@@ -123,34 +123,41 @@ export default {
       return {
         // ---> Rules for vuelidate <---
         user_name: {
+          // If user name is void, send a message
           required: helpers.withMessage(
             "El usuario no debe estar vacío",
             required
           ),
+          // If user name is not 4 characters, send a message
           minLength: helpers.withMessage(
             "El usuario debe contener por lo menos 4 caracteres",
             minLength(4)
           ),
         },
         email: {
+          // If email is void, send a message
           required: helpers.withMessage(
             "El email no debe estar vacío",
             required
           ),
+          // If email is invalid, send a message
           email: helpers.withMessage("El email debe ser válido", email),
         },
         password: {
           password: {
+            // If password is void, send a message
             required: helpers.withMessage(
               "La contraseña no debe estar vacía",
               required
             ),
+            // If password is not 4 characters, send a message
             minLength: helpers.withMessage(
               "La contraseña debe ser de mínimo 4 caracteres",
               minLength(4)
             ),
           },
           confirm: {
+            // If confirm password, doesn't match with password, sned a message
             required: helpers.withMessage("Confirma tu contraseña", required),
             sameAs: helpers.withMessage(
               "Las contraseñas deben coincidir",
@@ -159,6 +166,7 @@ export default {
           },
         },
         type: {
+          // If type is void, send a message
           required: helpers.withMessage(
             "Selecciona un tipo de usuario",
             required
@@ -166,6 +174,7 @@ export default {
         },
       };
     });
+    // Call function useValidate with rules and user's info
     const v$ = useValidate(rules, state);
 
     return {
@@ -175,6 +184,7 @@ export default {
   },
   data() {
     return {
+      // Array for backend's messages
       msg: [{}],
     };
   },
@@ -188,7 +198,7 @@ export default {
     },
     async signUp() {
       await axios
-        .post("http://localhost:3080/api/users/signup", this.state)
+        .post("http://localhost:3080/api/users/signup", this.state) // Post petition, with user's info
         .then((data) => {
           if (data.data == true) {
             this.$router.push({
@@ -196,9 +206,10 @@ export default {
               params: {
                 msg_from_signup: "Por favor verifica tú correo",
               },
+              // If backend send a true as response, this, redirect to signin view, with a message
             });
           } else {
-            this.msg.msgs = data.data;
+            this.msg.msgs = data.data; // Else, save the backend's message, in the msg array
           }
         });
     },

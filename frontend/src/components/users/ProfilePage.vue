@@ -1,4 +1,5 @@
 <template>
+  <!-- Simple page for test -->
   <section>
     <h1>Hola Usuario</h1>
   </section>
@@ -14,6 +15,7 @@ export default {
     };
   },
   mounted() {
+    // Petition get, for test jsonwebtoken
     axios.get("http://localhost:3080/api/users/signin/").then((data) => {
       if (data.data.text)
         return this.$router.push({

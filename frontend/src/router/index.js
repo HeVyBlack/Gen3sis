@@ -4,6 +4,7 @@ import SignUp from "../views/users/SignUpView.vue";
 import SignIn from "../views/users/SignInView.vue";
 import ProfilePage from "../views/users/ProfileView.vue";
 const routes = [
+  // Set routes, and some of this routes, have props on true (for message that i want to show later)
   {
     path: "/",
     name: "home",
