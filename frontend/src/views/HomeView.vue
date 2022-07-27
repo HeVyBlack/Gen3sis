@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div
-      class="alert alert-success alert-dismissible fade show container px-5"
+      class="alert alert-danger alert-dismissible fade show container px-5"
       role="alert"
       v-if="msgs"
     >

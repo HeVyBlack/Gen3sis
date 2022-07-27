@@ -204,7 +204,7 @@ export default {
             this.$router.push({
               name: "signin",
               params: {
-                msg_from_signup: "Por favor verifica tú correo",
+                msg_from_signup: "Por favor, verifica tú correo",
               },
               // If backend send a true as response, this, redirect to signin view, with a message
             });
