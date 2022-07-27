@@ -6,7 +6,7 @@ import { config } from "dotenv";
 // ----| Signin |---- //
 
 export const renderSignin = (req, res) => {
-  res.json({ username: test });
+  res.json({ username: "test" });
 }; // --> renderSigin
 
 export const signIn = async (req, res) => {
@@ -97,7 +97,7 @@ export const signUp = async (req, res) => {
     } else {
       const newUser = new User({ user_name, email, password, type });
       newUser.password = await newUser.encryptPassword(String(password));
-      const savedUser = await newUser.save();
+      await newUser.save();
       res.send(true);
     }
   }

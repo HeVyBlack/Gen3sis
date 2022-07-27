@@ -5,12 +5,13 @@ import {
   signIn,
   signUp,
 } from "../controllers/users.controller";
+import { verifyToken } from "../middlewares/authJwt";
 
 const router = Router();
 
 // ----| SigIn routes |----
 // get
-router.get("/signin", renderSignin);
+router.get("/signin", verifyToken, renderSignin);
 
 // post
 router.post("/signin", signIn);

@@ -58,6 +58,7 @@ import axios from "axios";
 import useValidate from "@vuelidate/core";
 import { required, email, minLength, helpers } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
+import setAuthHeader from "@/utils/setAuthHeader";
 export default {
   setup() {
     const state = reactive({
@@ -114,6 +115,8 @@ export default {
           if (data.data.token == null && !data.data.token) {
             this.msg.msgs = data.data;
           } else {
+            localStorage.setItem("jwtToken", data.data.token);
+            setAuthHeader(data.data.token);
             this.$router.push("/profile");
           }
         });
